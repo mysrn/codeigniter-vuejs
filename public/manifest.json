@@ -1,0 +1,51 @@
+{
+  "resources/assets/logos/ci-vue.webp": {
+    "file": "build/ci-vue.d7666839.webp",
+    "src": "resources/assets/logos/ci-vue.webp"
+  },
+  "resources/assets/logos/ci.png": {
+    "file": "build/ci.d69d46c7.png",
+    "src": "resources/assets/logos/ci.png"
+  },
+  "resources/assets/logos/vue.png": {
+    "file": "build/vue.86a7726c.png",
+    "src": "resources/assets/logos/vue.png"
+  },
+  "resources/main.js": {
+    "file": "build/main.622c19f7.js",
+    "src": "resources/main.js",
+    "isEntry": true,
+    "dynamicImports": [
+      "resources/pages/about.vue",
+      "resources/pages/[...all].vue"
+    ],
+    "css": [
+      "build/main.02ea3296.css"
+    ],
+    "assets": [
+      "build/vue.86a7726c.png",
+      "build/ci.d69d46c7.png",
+      "build/ci-vue.d7666839.webp"
+    ]
+  },
+  "resources/pages/about.vue": {
+    "file": "build/about.f701a234.js",
+    "src": "resources/pages/about.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/main.js"
+    ]
+  },
+  "resources/pages/[...all].vue": {
+    "file": "build/_...all_.aabb2bc6.js",
+    "src": "resources/pages/[...all].vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/main.js"
+    ]
+  },
+  "resources/main.css": {
+    "file": "build/main.02ea3296.css",
+    "src": "resources/main.css"
+  }
+}
