@@ -12,8 +12,10 @@ const router = createRouter({
     routes,
 })
 
+const baseURL = import.meta.env.VITE_APP_APIHOST
+
 const app = createApp(App)
-axios.defaults.baseURL = 'http://localhost:8080/'
+axios.defaults.baseURL = baseURL
 axios.defaults.headers.common['Content-Type'] = 'application/json'
 app.config.globalProperties.$axios = axios;
 app.use(router)
