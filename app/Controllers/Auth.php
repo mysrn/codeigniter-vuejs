@@ -10,18 +10,22 @@ use \Firebase\JWT\JWT;
 class Auth extends BaseController
 {
     use ResponseTrait;
+    private $userModel;
+    public function __construct()
+    {
+        $this->userModel = new UserModel();
+    }
     public function login()
     {
-        $userModel = new UserModel();
         $email = $this->request->getVar('email');
         $password = $this->request->getVar('password');
-        $user = $userModel->where('email', $email)->first();
-        $errorMessage = 'Invalid username & password';
+        $user = $this->userModel->where('email', $email)->first();
+        $errorMessage = 'Invalid';
         if (is_null($user)) 
-            return $this->respond(['error' => $errorMessage], 401);
+            return $this->respond(['error' => $errorMessage.' email'], 401);
         $passwordVerify = password_verify($password, $user['password']);
         if (!$passwordVerify)
-            return $this->respond(['error' => $errorMessage], 401);
+            return $this->respond(['error' => $errorMessage.' password'], 401);
         $key = getenv('JWT_SECRET');
         $iat = time();
         $exp = $iat + 3600;
@@ -44,18 +48,25 @@ class Auth extends BaseController
 
     public function register()
     {
-        $userModel = new UserModel();
         $rules = [
-            'email' => ['rules' => 'required|min_length[4]|valid_email|is_unique[users.email]'],
-            'password' => ['rules' => 'required|min_length[8]|max_length[255]'],
+            'name' => ['rules' => 'required'],
+            'email' => [
+                'rules' => 'required|min_length[4]|valid_email|is_unique[users.email]'
+            ],
+            'password' => [
+                'rules' => 'required|min_length[8]|max_length[255]'
+            ],
             'confirm_password' => ['rules' => 'matches[password]']
         ];
         if ($this->validate($rules)) {
             $data = [
+                'name' => $this->request->getVar('name'),
                 'email' => $this->request->getVar('email'),
-                'password' => password_hash($this->request->getvar('password'), PASSWORD_DEFAULT)
+                'password' => 
+                    password_hash($this->request->getvar('password'), 
+                        PASSWORD_DEFAULT)
             ];
-            $userModel->save($data);
+            $this->userModel->save($data);
             return $this->respond(['message' => 'Register successfully'], 200);
         } else {
             return $this->fail([

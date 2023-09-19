@@ -9,9 +9,13 @@ use App\Models\UserModel;
 class User extends BaseController
 {
     use ResponseTrait;
+    private $users;
+    public function __construct()
+    {
+        $this->users = new UserModel();
+    }
     public function index()
     {
-        $users = new UserModel();
-        return $this->respond(['users' => $users->findAll()], 200);
+        return $this->respond(['users' => $this->users->findAll()], 200);
     }
 }
