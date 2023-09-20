@@ -4,22 +4,22 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use CodeIgniter\API\ResponseTrait;
-use App\Models\UserModel;
+use App\Models\UsersModel;
 use \Firebase\JWT\JWT;
 
 class Auth extends BaseController
 {
     use ResponseTrait;
-    private $userModel;
+    private $UsersModel;
     public function __construct()
     {
-        $this->userModel = new UserModel();
+        $this->UsersModel = new UsersModel();
     }
     public function login()
     {
         $email = $this->request->getVar('email');
         $password = $this->request->getVar('password');
-        $user = $this->userModel->where('email', $email)->first();
+        $user = $this->UsersModel->where('email', $email)->first();
         $errorMessage = 'Invalid';
         if (is_null($user)) 
             return $this->respond(['error' => $errorMessage.' email'], 401);
@@ -53,25 +53,31 @@ class Auth extends BaseController
             'email' => [
                 'rules' => 'required|min_length[4]|valid_email|is_unique[users.email]'
             ],
+            'image' => ['rules' => 'max_length[255]'],
             'password' => [
                 'rules' => 'required|min_length[8]|max_length[255]'
             ],
-            'confirm_password' => ['rules' => 'matches[password]']
+            'confirm_password' => ['rules' => 'matches[password]'],
+            'role_id' => ['rules' => 'max_length[5]'],
+            'is_active' => ['rules' => 'max_length[5]']
         ];
         if ($this->validate($rules)) {
             $data = [
                 'name' => $this->request->getVar('name'),
                 'email' => $this->request->getVar('email'),
+                'image' => 'public/images/users.jpg',
                 'password' => 
                     password_hash($this->request->getvar('password'), 
-                        PASSWORD_DEFAULT)
+                        PASSWORD_DEFAULT),
+                'role_id' => 2,
+                'is_active' => 1,
             ];
-            $this->userModel->save($data);
+            $this->UsersModel->save($data);
             return $this->respond(['message' => 'Register successfully'], 200);
         } else {
             return $this->fail([
                 'error' => $this->validator->getErrors(),
-                'message' => 'Register successfully'
+                'message' => 'Register failed'
             ], 409);
         }
     }

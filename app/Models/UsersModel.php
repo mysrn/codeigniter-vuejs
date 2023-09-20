@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class UserModel extends Model
+class UsersModel extends Model
 {
     protected $DBGroup          = 'default';
     protected $table            = 'users';
@@ -13,7 +13,14 @@ class UserModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['name', 'email', 'password'];
+    protected $allowedFields    = [
+        'name', 
+        'email', 
+        'image', 
+        'password',
+        'role_id',
+        'is_active'
+    ];
 
     // Dates
     protected $useTimestamps = true;

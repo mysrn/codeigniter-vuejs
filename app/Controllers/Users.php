@@ -4,15 +4,15 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use Codeigniter\API\ResponseTrait;
-use App\Models\UserModel;
+use App\Models\UsersModel;
 
-class User extends BaseController
+class Users extends BaseController
 {
     use ResponseTrait;
     private $users;
     public function __construct()
     {
-        $this->users = new UserModel();
+        $this->users = new UsersModel();
     }
     public function index()
     {

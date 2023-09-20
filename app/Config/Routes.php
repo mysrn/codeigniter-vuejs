@@ -44,7 +44,7 @@ $routes->get('info', 'Home::getInfo');
 $routes->group('api', function($routes){
     $routes->post('register', 'Auth::register');
     $routes->post('login', 'Auth::login');
-    $routes->get('users', 'User::index', ['filter' => 'authFilter']);
+    $routes->get('users', 'Users::index', ['filter' => 'authFilter']);
 });
 
 /*
